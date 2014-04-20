@@ -13,7 +13,7 @@ class TablePrefix
     /**
      * Gets the value of name.
      *
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -23,7 +23,7 @@ class TablePrefix
     /**
      * Sets the value of name.
      *
-     * @param mixed $name the name
+     * @param string $name the name
      *
      * @return self
      */
@@ -37,7 +37,7 @@ class TablePrefix
     /**
      * Gets the value of namespace.
      *
-     * @return mixed
+     * @return string
      */
     public function getNamespace()
     {
@@ -47,7 +47,7 @@ class TablePrefix
     /**
      * Sets the value of namespace.
      *
-     * @param mixed $namespace the namespace
+     * @param string $namespace the namespace
      *
      * @return self
      */
