@@ -38,7 +38,7 @@ class TablePrefixSubscriber implements EventSubscriber
         $prefix=null;
         foreach ($this->prefixes as $tablePrefix) {
             if(strstr($classMetadata->namespace,$tablePrefix->getNamespace())){
-                $prefix=$tablePrefix->getName();
+                $prefix=strtolower($tablePrefix->getName());
             }
         }
         if(!$prefix){
@@ -47,12 +47,12 @@ class TablePrefixSubscriber implements EventSubscriber
         if ($classMetadata->isInheritanceTypeSingleTable() && !$classMetadata->isRootEntity()) {
             return;
         }
-        $classMetadata->setTableName($prefix . strtolower($classMetadata->getTableName()));
+        $classMetadata->setTableName($prefix.strtolower($classMetadata->getTableName()));
         foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
             if ($mapping['type'] == \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY) {
                 $mappedTableName = strtolower($classMetadata->associationMappings[$fieldName]['joinTable']['name']);
                 if(false === stripos($mappedTableName, $prefix)){
-                    $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $this->prefix . $mappedTableName;
+                    $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $prefix.$mappedTableName;
                 }
             }
         }
