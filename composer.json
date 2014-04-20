@@ -2,7 +2,7 @@
     "name": "chellem/doctine-prefixr-bundle",
     "type": "symfony-bundle",
     "description": "Symfony DoctrinePrefixrBundle",
-    "keywords": ["doctrine, prefix"],
+    "keywords": ["doctrine","prefix"],
     "license": "GPL-1.0+",
     "authors": [
         {
