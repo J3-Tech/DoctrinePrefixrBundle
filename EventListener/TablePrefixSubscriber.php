@@ -51,7 +51,7 @@ class TablePrefixSubscriber implements EventSubscriber
         foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
             if ($mapping['type'] == \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY) {
                 $mappedTableName = strtolower($classMetadata->associationMappings[$fieldName]['joinTable']['name']);
-                if(false === stripos($mappedTableName, $this->prefix)){
+                if(false === stripos($mappedTableName, $prefix)){
                     $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $this->prefix . $mappedTableName;
                 }
             }
