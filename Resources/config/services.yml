@@ -4,6 +4,7 @@ parameters:
 services:
     doctrine.prefixr:
         class: %doctrine_prefixr.prefixer.class%
+        public: false
         arguments: [@service_container,%doctrine_prefixr.prefixes%]
         tags:
             - { name: doctrine.event_subscriber }
