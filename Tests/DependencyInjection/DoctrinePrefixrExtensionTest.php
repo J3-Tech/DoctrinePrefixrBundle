@@ -18,8 +18,8 @@ class DoctrinePrefixrExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new DoctrinePrefixrExtension();
         $extension->load(array(), $container);
 
-        $this->assertTrue($container->hasDefinition('doctrine_prefixr'));
-        $this->assertArrayHasKey('prefixes',$container->getParameter('doctrine_prefixr'));
+        $this->assertTrue($container->hasDefinition('doctrine_prefixr.prefixes'));
+        $this->assertArrayHasKey('prefixes',$container->getParameter('doctrine_prefixr.prefixes'));
         $this->assertEquals('DoctrinePrefixr\Bundle\DoctrinePrefixrBundle\EventListener\TablePrefixSubscriber', $container->getParameter('doctrine_prefixr.prefixer.class'));
     }
 }
