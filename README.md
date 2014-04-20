@@ -2,7 +2,7 @@ DoctrinePrefixrBundle
 =====================
 
 [![Build Status](https://travis-ci.org/chellem/DoctrinePrefixrBundle.svg?branch=master)](https://travis-ci.org/chellem/DoctrinePrefixrBundle)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/chellem/DoctrinePrefixrBundle/badges/quality-score.png?s=8e846292f7972f337fd65f254d9861d7bc4f49fd)](https://scrutinizer-ci.com/g/chellem/DoctrinePrefixrBundle/)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/chellem/DoctrinePrefixrBundle/badges/quality-score.png?s=548f05c416af4f98cd95dfc62990394745be0e43)](https://scrutinizer-ci.com/g/chellem/DoctrinePrefixrBundle/)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/15656e81-c087-43a0-869c-dcbed55abb1f/mini.png)](https://insight.sensiolabs.com/projects/15656e81-c087-43a0-869c-dcbed55abb1f)
 
 ## What is does ?
