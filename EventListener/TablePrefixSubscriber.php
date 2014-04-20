@@ -12,9 +12,8 @@ class TablePrefixSubscriber implements EventSubscriber
 {
     protected $prefixes=array();
 
-    public function __construct($container,array $prefixes)
+    public function __construct(array $bundles,array $prefixes)
     {
-        $bundles=$container->getParameter('kernel.bundles');
         foreach ($prefixes as $name=>$prefix) {
             $bundleName="{$name}Bundle";
             if(array_key_exists($bundleName,$bundles)){
