@@ -16,7 +16,7 @@ class TablePrefixSubscriber implements EventSubscriber
     {
         foreach ($prefixes as $name=>$prefix) {
             $bundleName="{$name}Bundle";
-            if(array_key_exists($bundleName,$bundles)){
+            if (array_key_exists($bundleName,$bundles)) {
                 $namespace=str_replace($bundleName,null,$bundles[$bundleName]);
                 $tablePrefix=new TablePrefix();
                 $tablePrefix->setName($prefix.'_')
@@ -26,35 +26,33 @@ class TablePrefixSubscriber implements EventSubscriber
         }
     }
 
-    public function getSubscribedEvents()
-    {
-        return array('loadClassMetadata');
-    }
-
     public function loadClassMetadata(LoadClassMetadataEventArgs $args)
     {
         $classMetadata = $args->getClassMetadata();
         $prefix=null;
         foreach ($this->prefixes as $tablePrefix) {
-            if(strstr($classMetadata->namespace,$tablePrefix->getNamespace())){
+            if (strstr($classMetadata->namespace,$tablePrefix->getNamespace())) {
                 $prefix=strtolower($tablePrefix->getName());
+                break;
             }
         }
-        if(!$prefix){
-            return;
-        }
-        if ($classMetadata->isInheritanceTypeSingleTable() && !$classMetadata->isRootEntity()) {
+        if (!$prefix || $classMetadata->isInheritanceTypeSingleTable() && !$classMetadata->isRootEntity()) {
             return;
         }
         $classMetadata->setTableName($prefix.strtolower($classMetadata->getTableName()));
         foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
             if ($mapping['type'] == \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY) {
                 $mappedTableName = strtolower($classMetadata->associationMappings[$fieldName]['joinTable']['name']);
-                if(false === stripos($mappedTableName, $prefix)){
+                if (false === stripos($mappedTableName, $prefix)) {
                     $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $prefix.$mappedTableName;
                 }
             }
         }
+    }
+
+    public function getSubscribedEvents()
+    {
+        return array('loadClassMetadata');
     }
 
 }
