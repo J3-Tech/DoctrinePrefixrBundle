@@ -30,7 +30,7 @@ class TablePrefixSubscriber implements EventSubscriber
     public function loadClassMetadata(LoadClassMetadataEventArgs $args)
     {
         $classMetadata = $args->getClassMetadata();
-        if($classMetadata instanceof(ClassMetadata){
+        if($classMetadata instanceof(ClassMetadata)){
             $prefix=null;
             foreach ($this->prefixes as $tablePrefix) {
                 if (strstr($classMetadata->namespace,$tablePrefix->getNamespace())) {
