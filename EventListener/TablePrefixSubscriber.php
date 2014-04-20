@@ -69,7 +69,7 @@ class TablePrefixSubscriber implements EventSubscriber
     }
 
     /**
-     * @param string $prefix
+     * @param string $namespace
      */
     private function getPrefix($namespace)
     {
