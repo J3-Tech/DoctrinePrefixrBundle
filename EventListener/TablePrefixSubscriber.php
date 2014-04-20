@@ -30,23 +30,16 @@ class TablePrefixSubscriber implements EventSubscriber
     public function loadClassMetadata(LoadClassMetadataEventArgs $args)
     {
         $classMetadata = $args->getClassMetadata();
-        if($classMetadata instanceof ClassMetadata){
-            $prefix=null;
-            foreach ($this->prefixes as $tablePrefix) {
-                if (strstr($classMetadata->namespace,$tablePrefix->getNamespace())) {
-                    $prefix=strtolower($tablePrefix->getName());
-                    break;
-                }
-            }
-            if (!$prefix || $classMetadata->isInheritanceTypeSingleTable() && !$classMetadata->isRootEntity()) {
-                return;
-            }
-            $classMetadata->table['name']=$prefix.strtolower($classMetadata->getTableName());
-            foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
-                if ($mapping['type'] == ClassMetadata::MANY_TO_MANY) {
-                    $mappedTableName = strtolower($classMetadata->associationMappings[$fieldName]['joinTable']['name']);
-                    if (false === stripos($mappedTableName, $prefix)) {
-                        $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $prefix.$mappedTableName;
+        if ($classMetadata instanceof ClassMetadata) {
+            $prefix=$this->getPrefix($classMetadata->namespace);
+            if ($prefix && $this->isValid($classMetadata)) {
+                $classMetadata->table['name']=$prefix.strtolower($classMetadata->getTableName());
+                foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
+                    if ($mapping['type'] == ClassMetadata::MANY_TO_MANY) {
+                        $mappedTableName = strtolower($classMetadata->associationMappings[$fieldName]['joinTable']['name']);
+                        if (false === stripos($mappedTableName, $prefix)) {
+                            $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $prefix.$mappedTableName;
+                        }
                     }
                 }
             }
@@ -58,4 +51,19 @@ class TablePrefixSubscriber implements EventSubscriber
         return array('loadClassMetadata');
     }
 
+    private function isValid(ClassMetadata $classMetadata)
+    {
+        return !$classMetadata->isInheritanceTypeSingleTable() && $classMetadata->isRootEntity();
+    }
+
+    private function getPrefix($namespace)
+    {
+        foreach ($this->prefixes as $tablePrefix) {
+            if (strstr($namespace,$tablePrefix->getNamespace())) {
+                return strtolower($tablePrefix->getName());
+            }
+        }
+
+        return null;
+    }
 }
