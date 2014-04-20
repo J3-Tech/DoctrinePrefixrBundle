@@ -1,0 +1,9 @@
+parameters:
+    doctrine_prefixr.prefixer.class: DoctrinePrefixr\Bundle\DoctrinePrefixrBundle\EventListener\TablePrefixSubscriber
+
+services:
+    doctrine.prefixr:
+        class: %doctrine_prefixr.prefixer.class%
+        arguments: [@service_container,%doctrine_prefixr.prefixes%]
+        tags:
+            - { name: doctrine.event_subscriber }
