@@ -30,7 +30,7 @@ class TablePrefixSubscriber implements EventSubscriber
     public function loadClassMetadata(LoadClassMetadataEventArgs $args)
     {
         $classMetadata = $args->getClassMetadata();
-        if($classMetadata instanceof ClassMetadata ){
+        if($classMetadata instanceof ClassMetadata){
             $prefix=null;
             foreach ($this->prefixes as $tablePrefix) {
                 if (strstr($classMetadata->namespace,$tablePrefix->getNamespace())) {
@@ -41,7 +41,7 @@ class TablePrefixSubscriber implements EventSubscriber
             if (!$prefix || $classMetadata->isInheritanceTypeSingleTable() && !$classMetadata->isRootEntity()) {
                 return;
             }
-            $classMetadata->setTableName($prefix.strtolower($classMetadata->getTableName()));
+            $classMetadata->table['name']=$prefix.strtolower($classMetadata->getTableName());
             foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
                 if ($mapping['type'] == ClassMetadata::MANY_TO_MANY) {
                     $mappedTableName = strtolower($classMetadata->associationMappings[$fieldName]['joinTable']['name']);
