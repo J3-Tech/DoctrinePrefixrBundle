@@ -44,6 +44,10 @@ class TablePrefixSubscriber implements EventSubscriber
         return array('loadClassMetadata');
     }
 
+    /**
+     * @param ClassMetadata $classMetadata
+     * @param string $prefix
+     */
     private function processAssociations(ClassMetadata $classMetadata,$prefix)
     {
         foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
@@ -56,11 +60,17 @@ class TablePrefixSubscriber implements EventSubscriber
         }
     }
 
+    /**
+     * @param ClassMetadata $classMetadata
+     */
     private function isValid(ClassMetadata $classMetadata)
     {
         return !$classMetadata->isInheritanceTypeSingleTable() && $classMetadata->isRootEntity();
     }
 
+    /**
+     * @param string $prefix
+     */
     private function getPrefix($namespace)
     {
         foreach ($this->prefixes as $tablePrefix) {
