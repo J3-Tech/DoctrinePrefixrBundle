@@ -34,14 +34,7 @@ class TablePrefixSubscriber implements EventSubscriber
             $prefix=$this->getPrefix($classMetadata->namespace);
             if ($prefix && $this->isValid($classMetadata)) {
                 $classMetadata->table['name']=$prefix.strtolower($classMetadata->getTableName());
-                foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
-                    if ($mapping['type'] == ClassMetadata::MANY_TO_MANY) {
-                        $mappedTableName = strtolower($classMetadata->associationMappings[$fieldName]['joinTable']['name']);
-                        if (false === stripos($mappedTableName, $prefix)) {
-                            $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $prefix.$mappedTableName;
-                        }
-                    }
-                }
+                $this->processAssociations($classMetadata,$prefix);
             }
         }
     }
@@ -49,6 +42,18 @@ class TablePrefixSubscriber implements EventSubscriber
     public function getSubscribedEvents()
     {
         return array('loadClassMetadata');
+    }
+
+    private function processAssociations(ClassMetadata $classMetadata,$prefix)
+    {
+        foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
+            if ($mapping['type'] == ClassMetadata::MANY_TO_MANY) {
+                $mappedTableName = strtolower($classMetadata->associationMappings[$fieldName]['joinTable']['name']);
+                if (false === stripos($mappedTableName, $prefix)) {
+                    $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $prefix.$mappedTableName;
+                }
+            }
+        }
     }
 
     private function isValid(ClassMetadata $classMetadata)
