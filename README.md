@@ -43,7 +43,7 @@ Configuration in your config.yml:
 
 ```yaml
 # app/config/config.yml
-doctine_prefixr:
+doctrine_prefixr:
     prefixes:
         # no need to add 'Bundle' to the Bundle name
         AcmeDemo: acme_demo
