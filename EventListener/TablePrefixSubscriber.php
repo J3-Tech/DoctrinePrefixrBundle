@@ -1,4 +1,5 @@
 <?php
+
 namespace DoctrinePrefixr\Bundle\DoctrinePrefixrBundle\EventListener;
 
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
@@ -11,18 +12,18 @@ use Doctrine\ORM\Mapping\ClassMetadata;
  */
 class TablePrefixSubscriber implements EventSubscriber
 {
-    protected $prefixes=array();
+    protected $prefixes = array();
 
-    public function __construct(array $bundles,array $prefixes)
+    public function __construct(array $bundles, array $prefixes)
     {
-        foreach ($prefixes as $name=>$prefix) {
-            $bundleName="{$name}Bundle";
-            if (array_key_exists($bundleName,$bundles)) {
-                $namespace=str_replace($bundleName,null,$bundles[$bundleName]);
-                $tablePrefix=new TablePrefix();
+        foreach ($prefixes as $name => $prefix) {
+            $bundleName = "{$name}Bundle";
+            if (array_key_exists($bundleName, $bundles)) {
+                $namespace = str_replace($bundleName, null, $bundles[$bundleName]);
+                $tablePrefix = new TablePrefix();
                 $tablePrefix->setName($prefix.'_')
                             ->setNamespace("{$namespace}Entity");
-                $this->prefixes[]=$tablePrefix;
+                $this->prefixes[] = $tablePrefix;
             }
         }
     }
@@ -31,10 +32,10 @@ class TablePrefixSubscriber implements EventSubscriber
     {
         $classMetadata = $args->getClassMetadata();
         if ($classMetadata instanceof ClassMetadata) {
-            $prefix=$this->getPrefix($classMetadata->namespace);
+            $prefix = $this->getPrefix($classMetadata->namespace);
             if ($prefix && $this->isValid($classMetadata)) {
-                $classMetadata->table['name']=$prefix.strtolower($classMetadata->getTableName());
-                $this->processAssociations($classMetadata,$prefix);
+                $classMetadata->table['name'] = $prefix.strtolower($classMetadata->getTableName());
+                $this->processAssociations($classMetadata, $prefix);
             }
         }
     }
@@ -46,9 +47,9 @@ class TablePrefixSubscriber implements EventSubscriber
 
     /**
      * @param ClassMetadata $classMetadata
-     * @param string $prefix
+     * @param string        $prefix
      */
-    private function processAssociations(ClassMetadata $classMetadata,$prefix)
+    private function processAssociations(ClassMetadata $classMetadata, $prefix)
     {
         foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
             if ($mapping['type'] == ClassMetadata::MANY_TO_MANY) {
@@ -74,11 +75,11 @@ class TablePrefixSubscriber implements EventSubscriber
     private function getPrefix($namespace)
     {
         foreach ($this->prefixes as $tablePrefix) {
-            if (strstr($namespace,$tablePrefix->getNamespace())) {
+            if (strstr($namespace, $tablePrefix->getNamespace())) {
                 return strtolower($tablePrefix->getName());
             }
         }
 
-        return null;
+        return;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace DoctrinePrefixr\Bundle\DoctrinePrefixrBundle\Tests\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -19,7 +20,7 @@ class DoctrinePrefixrExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->load(array(), $container);
 
         $this->assertTrue($container->hasDefinition('doctrine.prefixr'));
-        $this->assertEquals(array(),$container->getParameter('doctrine_prefixr.prefixes'));
+        $this->assertEquals(array(), $container->getParameter('doctrine_prefixr.prefixes'));
         $this->assertEquals('DoctrinePrefixr\Bundle\DoctrinePrefixrBundle\EventListener\TablePrefixSubscriber', $container->getParameter('doctrine_prefixr.prefixer.class'));
     }
 }
