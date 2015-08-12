@@ -1,5 +1,5 @@
 {
-    "name": "chellem/doctine-prefixr-bundle",
+    "name": "labzone/doctine-prefixr-bundle",
     "type": "symfony-bundle",
     "description": "Symfony DoctrinePrefixrBundle",
     "keywords": ["doctrine","prefix"],
